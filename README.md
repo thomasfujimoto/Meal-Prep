@@ -1,4 +1,4 @@
-# Meal Prep
+# Prep N' Plate
 
 ## Description
 
