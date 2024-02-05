@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/react-gh-pages/static/css/main.b24043cd.css",
+    "main.js": "/react-gh-pages/static/js/main.d8bf7234.js",
+    "static/js/592.5a059c9e.chunk.js": "/react-gh-pages/static/js/592.5a059c9e.chunk.js",
+    "static/media/prepandplate1.png": "/react-gh-pages/static/media/prepandplate1.ee0ae529642c9d084416.png",
+    "index.html": "/react-gh-pages/index.html",
+    "main.b24043cd.css.map": "/react-gh-pages/static/css/main.b24043cd.css.map",
+    "main.d8bf7234.js.map": "/react-gh-pages/static/js/main.d8bf7234.js.map",
+    "592.5a059c9e.chunk.js.map": "/react-gh-pages/static/js/592.5a059c9e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b24043cd.css",
+    "static/js/main.d8bf7234.js"
+  ]
+}
