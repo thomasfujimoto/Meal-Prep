@@ -1,0 +1,41 @@
+/* App.css */
+
+body {
+  background-color: #e3ebdb; /* Replace with your desired color code */
+  margin: 0; /* Reset default body margin */
+}
+
+.center-container {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh; /* This ensures that the container takes up the full height of the viewport */
+}
+
+
+.logo {
+    width: 700px; 
+    height: auto; 
+}
+
+.corner-box {
+  position: relative;
+  width: 150px;
+  height: 75px;
+  background-color: #3498db; /* Adjust the background color as needed */
+  border-radius: 50% 0 0 0;
+  transform: translateY(-50%);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  padding: 10px;
+  color: #fff; /* Adjust the text color as needed */
+}
+
+  
