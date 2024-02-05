@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Prep-N-Plate/static/css/main.b24043cd.css",
-    "main.js": "/Prep-N-Plate/static/js/main.d155f128.js",
-    "static/js/592.5a059c9e.chunk.js": "/Prep-N-Plate/static/js/592.5a059c9e.chunk.js",
-    "static/media/prepandplate1.png": "/Prep-N-Plate/static/media/prepandplate1.ee0ae529642c9d084416.png",
-    "index.html": "/Prep-N-Plate/index.html",
-    "main.b24043cd.css.map": "/Prep-N-Plate/static/css/main.b24043cd.css.map",
-    "main.d155f128.js.map": "/Prep-N-Plate/static/js/main.d155f128.js.map",
-    "592.5a059c9e.chunk.js.map": "/Prep-N-Plate/static/js/592.5a059c9e.chunk.js.map"
+    "main.css": "/static/css/main.b24043cd.css",
+    "main.js": "/static/js/main.d3b45d3f.js",
+    "static/js/592.5a059c9e.chunk.js": "/static/js/592.5a059c9e.chunk.js",
+    "static/media/prepandplate1.png": "/static/media/prepandplate1.ee0ae529642c9d084416.png",
+    "index.html": "/index.html",
+    "main.b24043cd.css.map": "/static/css/main.b24043cd.css.map",
+    "main.d3b45d3f.js.map": "/static/js/main.d3b45d3f.js.map",
+    "592.5a059c9e.chunk.js.map": "/static/js/592.5a059c9e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b24043cd.css",
-    "static/js/main.d155f128.js"
+    "static/js/main.d3b45d3f.js"
   ]
 }
