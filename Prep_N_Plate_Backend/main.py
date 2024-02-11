@@ -4,11 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
 from django.urls import path
-from .views import receive_data
+from .views import receive_intls, receive_str, receive_strls
 
 #Django receive setup
 urlpatterns = [
-    path('api/data/', receive_data, name='receive_data'),
+    path('api/receive_intls/', receive_intls, name='receive_intls'),
+    path('api/receive_str/', receive_str, name='receive_str'),
+    path('api/receive_strls/', receive_strls, name='receive_strls'),
 ]
 
 #Categories in the .CSV:
@@ -34,17 +36,20 @@ print(df[df.columns[:5]].head())
 #Receives the int array which represents survey choices selected or not
 @csrf_exempt
 @required_http_methods(["POST"])
-def receive_int_data(request):
+def receive_intls_data(request):
+    pass
 
 #receives the string array which represents the chosen recipes selected after survey 
 @csrf_exempt
 @required_http_methods(["POST"])
 def receive_str_data(request):
+    pass
 
 #receives recipe string name user chose to get more info about
 @csrf_exempt
 @required_http_methods(["POST"])
 def receive_strls_data(request):
+    pass
 
 
 #return recipes based on user input from survey inputs above, 
@@ -54,13 +59,17 @@ def SurveyInput(array of ints):
     #Base cases: Nothing selected, drop nothing
     #Something selected: Filter out everything not selected
     #if no recipes available by options selected return no recipes found
+    pass
      
 
 #takes an array of recipe names chosen in the previous frontend step and then creates a grocery list 
 def GenerateUserGroceryList(array of recipe names):
+    pass
 
 #takes an array of recipe names chosen in the previous frontend step and then creates a schedule with recipe directions
 def GenerateUserSchedule(array of recipe names):
+    pass
 
 #takes recipe string name and returns calore info, ingredients, and directions
 def RecipeInfo(recipe string name):
+    pass
