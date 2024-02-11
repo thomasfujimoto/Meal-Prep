@@ -4,13 +4,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
 from django.urls import path
-from .views import receive_intls, receive_str, receive_strls
+from .views import receive_intls, receive_str, receive_strls, send_data_to_frontend
 
-#Django receive setup
+# What we need to implement to interact directly with the frontend aka bare bones functionality. 
+# User permissions, security, state etc. taken care of in the other Django folder.
+
+#Django receive/send setup. Goes in urls.py
 urlpatterns = [
     path('api/receive_intls/', receive_intls, name='receive_intls'),
     path('api/receive_str/', receive_str, name='receive_str'),
     path('api/receive_strls/', receive_strls, name='receive_strls'),
+    path('api/data/', send_data_to_frontend, name='send_data_to_frontend'),
 ]
 
 #Categories in the .CSV:
@@ -51,6 +55,8 @@ def receive_str_data(request):
 def receive_strls_data(request):
     pass
 
+def send_to_frontend(request):
+    pass
 
 #return recipes based on user input from survey inputs above, 
 #1 = choice selected, 0 not selected
