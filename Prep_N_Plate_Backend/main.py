@@ -28,7 +28,7 @@ urlpatterns = [
 # sugar conscious
 
 #.csv filepath
-filePath = "/workspaces/Prep-N-Plate/Prep_N_Plate_Backend/archive/epi_r.csv"
+filePath = "/workspaces/Prep-N-Plate/Prep_N_Plate_Backend/archive/recipes.csv"
 
 #Read and clean CSV where no calorie data is present
 df = pd.read_csv(filePath)
@@ -90,17 +90,13 @@ def GenerateUserSchedule(recipes):
 
 #takes one recipe string name and returns calore info, ingredients, and directions
 #In Progress...
-def RecipeInfo(recipe_str, 'archive/full_format_recipes.json'):
 
-
-import json
-
-def get_recipe_slice(recipe_title, json_file):
-    with open(json_file, 'r') as f:
+def get_recipe_slice(recipe_str, filePath):
+    with open(filePath, 'r') as f:
         data = json.load(f)
         recipe_json = None
         for recipe in data['recipes']:
-            if recipe['title'] == recipe_title:
+            if recipe['title'] == recipe_str:
                 recipe_json = recipe['json']
                 break
         if recipe_json:
@@ -109,14 +105,3 @@ def get_recipe_slice(recipe_title, json_file):
             if start_index != -1 and end_index != -1:
                 return recipe_json[start_index:end_index]
         return None
-
-# Example usage
-recipe_title = 'Pancakes'
-json_file = 'recipes.json'
-
-recipe_slice = get_recipe_slice(recipe_title, json_file)
-if recipe_slice:
-    print("Recipe slice found:")
-    print(recipe_slice)
-else:
-    print("Recipe slice not found.")
