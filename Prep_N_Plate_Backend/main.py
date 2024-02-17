@@ -60,22 +60,63 @@ def send_to_frontend(request):
 
 #return recipes based on user input from survey inputs above, 
 #1 = choice selected, 0 not selected
-def SurveyInput(array of ints):
-    #order of array indexes: vegetarian, vegan, treeNutFree, sugarConscious, threeIngredients, cakeWeek, tTMinute, wasteless
-    #Base cases: Nothing selected, drop nothing
-    #Something selected: Filter out everything not selected
-    #if no recipes available by options selected return no recipes found
-    pass
-     
+#Use this to get df in send function, in there convert DF to CSV
+#DONE
+def SurveyInput(int_arr):
+    #order of array indexes: bfast, lunch, dinner, vegetarian, vegan, treeNutFree, sugarConscious, tTMinute, calories]
 
+    column_dict = {0: "breakfast", 1: "lunch", 2: "dinner", 3: "vegetarian", 4: "vegan", 5: "treeNutFree", 6: "sugarConscious", 7: "tTMinute", 8: "calories"}
+
+    #Base cases: Nothing selected, drop nothing
+    empty = all(x == 0 for x in int_arr)
+    if empty == True:
+        return df  
+    #Something was selected
+    else:
+        for val in int_arr:
+            if val == 0:
+                df.drop(column_dict[val], axis=1, inPlace=True)
+        return df
+    
 #takes an array of recipe names chosen in the previous frontend step and then creates a grocery list 
-def GenerateUserGroceryList(array of recipe names):
+#In Progress...
+def GenerateUserGroceryList(recipes):
     pass
 
 #takes an array of recipe names chosen in the previous frontend step and then creates a schedule with recipe directions
-def GenerateUserSchedule(array of recipe names):
+#In Progress...
+def GenerateUserSchedule(recipes):
     pass
 
-#takes recipe string name and returns calore info, ingredients, and directions
-def RecipeInfo(recipe string name):
-    pass
+#takes one recipe string name and returns calore info, ingredients, and directions
+#In Progress...
+def RecipeInfo(recipe_str, 'archive/full_format_recipes.json'):
+
+
+import json
+
+def get_recipe_slice(recipe_title, json_file):
+    with open(json_file, 'r') as f:
+        data = json.load(f)
+        recipe_json = None
+        for recipe in data['recipes']:
+            if recipe['title'] == recipe_title:
+                recipe_json = recipe['json']
+                break
+        if recipe_json:
+            start_index = recipe_json.find("fat")
+            end_index = recipe_json.find("]", start_index) + 1
+            if start_index != -1 and end_index != -1:
+                return recipe_json[start_index:end_index]
+        return None
+
+# Example usage
+recipe_title = 'Pancakes'
+json_file = 'recipes.json'
+
+recipe_slice = get_recipe_slice(recipe_title, json_file)
+if recipe_slice:
+    print("Recipe slice found:")
+    print(recipe_slice)
+else:
+    print("Recipe slice not found.")
