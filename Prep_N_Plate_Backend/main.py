@@ -83,6 +83,37 @@ def SurveyInput(int_arr):
 def GenerateUserGroceryList(recipes):
     pass
 
+
+def get_total_ingredients(recipe_names, json_file_path):
+    # Read the JSON file
+    with open(json_file_path, 'r') as file:
+        data = json.load(file)
+    
+    total_ingredients = {}
+    
+    # Iterate over recipe names
+    for recipe_name in recipe_names:
+        # Find the corresponding JSON slice
+        recipe_data = None
+        for key in data.keys():
+            if recipe_name.lower() in key.lower():
+                recipe_data = data[key]
+                break
+        
+        if recipe_data:
+            # Extract ingredients from the JSON slice
+            start_index = recipe_data.find('"fat"')
+            end_index = recipe_data.find(']', start_index)
+            if start_index != -1 and end_index != -1:
+                ingredients_json = recipe_data[start_index:end_index+1]
+                ingredients = json.loads(ingredients_json)
+                
+                # Accumulate ingredients
+                for ingredient in ingredients:
+                    total_ingredients[ingredient] = total_ingredients.get(ingredient, 0) + 1
+    
+    return total_ingredients
+
 #takes an array of recipe names chosen in the previous frontend step and then creates a schedule with recipe directions
 #In Progress...
 def GenerateUserSchedule(recipes):
