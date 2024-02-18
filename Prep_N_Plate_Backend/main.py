@@ -29,6 +29,7 @@ urlpatterns = [
 
 #.csv filepath
 filePath = "/workspaces/Prep-N-Plate/Prep_N_Plate_Backend/archive/recipes.csv"
+filePath2 = "/workspaces/Prep-N-Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
 
 #Read and clean CSV where no calorie data is present
 df = pd.read_csv(filePath)
@@ -81,24 +82,24 @@ def SurveyInput(int_arr):
 #takes an array of recipe names chosen in the previous frontend step and then creates a grocery list 
 #In Progress...
 def GenerateUserGroceryList(recipes):
-    pass
+    grocery_list = []
+    for recipe in recipes:
+        grocery_list += get_total_ingredients(recipe, filePath2)
+    return grocery_list
 
 
-def get_total_ingredients(recipe_names, json_file_path):
+def get_total_ingredients(recipe_name, json_file_path):
     # Read the JSON file
     with open(json_file_path, 'r') as file:
         data = json.load(file)
     
     total_ingredients = {}
     
-    # Iterate over recipe names
-    for recipe_name in recipe_names:
-        # Find the corresponding JSON slice
-        recipe_data = None
-        for key in data.keys():
-            if recipe_name.lower() in key.lower():
-                recipe_data = data[key]
-                break
+    recipe_data = None
+    for key in data.keys():
+        if recipe_name.lower() in key.lower():
+            recipe_data = data[key]
+        break
         
         if recipe_data:
             # Extract ingredients from the JSON slice
@@ -114,16 +115,41 @@ def get_total_ingredients(recipe_names, json_file_path):
     
     return total_ingredients
 
+def split_recipe_schedule(recipes):
+    #split 21 recipes into 7 separate 
+    #call generateuserschedule on 7 separate
+    #return json info
+    pass
+    
+
 #takes an array of recipe names chosen in the previous frontend step and then creates a schedule with recipe directions
 #In Progress...
+#Assumption: Generates ONE day's schedule. Will be called repeatedly to generate a schedule for the whole week. 
 def GenerateUserSchedule(recipes):
-    pass
+    #Recipes NEEDS to specify which meal is for what time. Do this through implicit specification, 1st meal breakfast 2nd meal lunch 3rd meal dinner.
+    #pseudocode
+    #Slice recipes into breakfast, lunch, dinner
+    #Order schedule by B, L, D. 
+    #slice JSON file and get recipe ingredients + directions
+    #return json slices
+    
+    #Recipe x = JSON Encoded String
+    b_schedules = dict()
+    l_schedules = dict()
+    d_schedules = dict()
+
+    b_schedules[recipe[0]] =  get_recipe_slice(recipe)
+    l_schedules[recipe[1]] =  get_recipe_slice(recipe)
+    d_schedules[recipe[2]] =  get_recipe_slice(recipe)
+    
+    return [b_schedules, l_schedules, d_schedules]
+        
+    
 
 #takes one recipe string name and returns calore info, ingredients, and directions
-#In Progress...
-
-def get_recipe_slice(recipe_str, filePath):
-    with open(filePath, 'r') as f:
+#DONE
+def get_recipe_slice(recipe_str):
+    with open(filePath2, 'r') as f:
         data = json.load(f)
         recipe_json = None
         for recipe in data['recipes']:
@@ -136,3 +162,4 @@ def get_recipe_slice(recipe_str, filePath):
             if start_index != -1 and end_index != -1:
                 return recipe_json[start_index:end_index]
         return None
+    
