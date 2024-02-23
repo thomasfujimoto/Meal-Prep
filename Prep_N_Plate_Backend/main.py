@@ -49,7 +49,6 @@ def receive_intls_data(request):
 @required_http_methods(["POST"])
 def receive_str_data(request):
     pass
-
 #receives recipe string name user chose to get more info about
 @csrf_exempt
 @required_http_methods(["POST"])
@@ -64,7 +63,7 @@ def send_to_frontend(request):
 #Use this to get df in send function, in there convert DF to CSV
 #DONE
 def SurveyInput(int_arr):
-    #order of array indexes: bfast, lunch, dinner, vegetarian, vegan, treeNutFree, sugarConscious, tTMinute, calories]
+    #order of array indexes: [bfast, lunch, dinner, vegetarian, vegan, treeNutFree, sugarConscious, tTMinute, calories]
 
     column_dict = {0: "breakfast", 1: "lunch", 2: "dinner", 3: "vegetarian", 4: "vegan", 5: "treeNutFree", 6: "sugarConscious", 7: "tTMinute", 8: "calories"}
 
@@ -88,9 +87,9 @@ def GenerateUserGroceryList(recipes):
     return grocery_list
 
 
-def get_total_ingredients(recipe_name, json_file_path):
-    # Read the JSON file
-    with open(json_file_path, 'r') as file:
+def get_total_ingredients(recipe_name):
+    # Read the JSON file path
+    with open(filePath2, 'r') as file:
         data = json.load(file)
     
     total_ingredients = {}
@@ -99,7 +98,7 @@ def get_total_ingredients(recipe_name, json_file_path):
     for key in data.keys():
         if recipe_name.lower() in key.lower():
             recipe_data = data[key]
-        break
+            break
         
         if recipe_data:
             # Extract ingredients from the JSON slice
@@ -116,15 +115,26 @@ def get_total_ingredients(recipe_name, json_file_path):
     return total_ingredients
 
 def split_recipe_schedule(recipes):
-    #split 21 recipes into 7 separate 
-    #call generateuserschedule on 7 separate
-    #return json info
-    pass
-    
+    user_schedule = []
+    json_structure_list = []
+    for i in range(7):
+        day_schedule = [recipes[i], recipes[i + 7], recipes[i + 14]]
+        user_schedule.append(day_schedule)
+  
+    for i in user_schedule:
+        json_structure_list.append(GenerateUserSchedule(user_schedule[i]))
+
+    final_json = {
+    "data": json_structure_list
+    }
+    final_json_str = json.dumps(final_json, indent=4)
+    return final_json_str
+
 
 #takes an array of recipe names chosen in the previous frontend step and then creates a schedule with recipe directions
 #In Progress...
 #Assumption: Generates ONE day's schedule. Will be called repeatedly to generate a schedule for the whole week. 
+
 def GenerateUserSchedule(recipes):
     #Recipes NEEDS to specify which meal is for what time. Do this through implicit specification, 1st meal breakfast 2nd meal lunch 3rd meal dinner.
     #pseudocode
@@ -141,7 +151,7 @@ def GenerateUserSchedule(recipes):
     b_schedules[recipe[0]] =  get_recipe_slice(recipe)
     l_schedules[recipe[1]] =  get_recipe_slice(recipe)
     d_schedules[recipe[2]] =  get_recipe_slice(recipe)
-    
+    #json_string = json.dumps([b_schedules, l_schedules, d_schedules])
     return [b_schedules, l_schedules, d_schedules]
         
     
@@ -162,4 +172,3 @@ def get_recipe_slice(recipe_str):
             if start_index != -1 and end_index != -1:
                 return recipe_json[start_index:end_index]
         return None
-    
