@@ -4,18 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
 from django.urls import path
-from .views import receive_intls, receive_str, receive_strls, send_data_to_frontend
 
 # What we need to implement to interact directly with the frontend aka bare bones functionality. 
 # User permissions, security, state etc. taken care of in the other Django folder.
-
-#Django receive/send setup. Goes in urls.py
-urlpatterns = [
-    path('api/receive_intls/', receive_intls, name='receive_intls'),
-    path('api/receive_str/', receive_str, name='receive_str'),
-    path('api/receive_strls/', receive_strls, name='receive_strls'),
-    path('api/data/', send_data_to_frontend, name='send_data_to_frontend'),
-]
 
 #Categories in the .CSV:
 # 22 minute meal
@@ -28,8 +19,8 @@ urlpatterns = [
 # sugar conscious
 
 #.csv filepath
-filePath = "/workspaces/Prep-N-Plate/Prep_N_Plate_Backend/archive/recipes.csv"
-filePath2 = "/workspaces/Prep-N-Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
+filePath = "Prep-N-Plate/Prep_N_Plate_Backend/archive/recipes.csv"
+filePath2 = "Prep-N-Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
 
 #Read and clean CSV where no calorie data is present
 df = pd.read_csv(filePath)
@@ -40,18 +31,18 @@ print(df[df.columns[:5]].head())
 
 #Receives the int array which represents survey choices selected or not
 @csrf_exempt
-@required_http_methods(["POST"])
+@require_http_methods(["POST"])
 def receive_intls_data(request):
     pass
 
 #receives the string array which represents the chosen recipes selected after survey 
 @csrf_exempt
-@required_http_methods(["POST"])
+@require_http_methods(["POST"])
 def receive_str_data(request):
     pass
 #receives recipe string name user chose to get more info about
 @csrf_exempt
-@required_http_methods(["POST"])
+@require_http_methods(["POST"])
 def receive_strls_data(request):
     pass
 
@@ -75,7 +66,7 @@ def SurveyInput(int_arr):
     else:
         for val in int_arr:
             if val == 0:
-                df.drop(column_dict[val], axis=1, inPlace=True)
+                df.drop(column_dict[val], axis=1, inplace=True)
         return df
     
 #takes an array of recipe names chosen in the previous frontend step and then creates a grocery list 

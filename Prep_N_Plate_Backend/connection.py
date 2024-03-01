@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-import utilities
+from utilities import SurveyInput
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -64,14 +64,6 @@ def handle_grocery_list():
 
     #return jsonified list
     return jsonify(groceries)
-
-
-
-
-
-
-
-
 
 # Worry about this later
 # @app.route('/submit-recipe', methods=['POST'])
