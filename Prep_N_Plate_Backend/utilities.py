@@ -16,21 +16,45 @@ def SurveyInput(int_arr):
     df_loc = df
     column_dict = {0: 'breakfast', 1: 'lunch', 2: 'dinner', 3: 'twentyMinMeals', 4: 'dessert', 5: 'calories',
                    6: 'vegetarian', 7: 'vegan', 8: 'nutFree', 9: 'dairyFree'}
+    union_list = []
     intersection_list = []
+    categories = ['breakfast', 'lunch', 'dinner']
 
     for i in range(len(int_arr)):
-        if int_arr[i] == 1:
+        if int_arr[i] == 1 and i < 5:
+            union_list.append(column_dict[i])
+        elif int_arr[i] == 1 and i > 5:
             intersection_list.append(column_dict[i])
 
-    df_loc = df_loc[df_loc[intersection_list].all(axis=1)]
+    df_loc_union = df_loc[df_loc[union_list].any(axis=1)]
+    df_loc_intersection = df_loc[df_loc[intersection_list].all(axis=1)]
+    df_loc = pd.merge(df_loc_union, df_loc_intersection, how='inner')
 
-    df_loc = df_loc[['title']]
+    for cat in categories:
+        if cat not in df_loc.columns:
+            df_loc[cat] = 0
+
+    df_loc['type'] = df_loc.apply(determine_meal_type, axis=1)
+
+    df_loc = df_loc[['title', 'type']]
 
     # Gets you a random 500 selected
     if len(df_loc) > 250:
         df_loc = df_loc.sample(n=250)
 
     return df_loc
+
+def determine_meal_type(row):
+    types = []
+    if row['breakfast'] == 1:
+        types.append('breakfast')
+    if row['lunch'] == 1:
+        types.append('lunch')
+    if row['dinner'] == 1:
+        types.append('dinner')
+
+    # Join types with a comma if multiple, else return the single type or None
+    return ', '.join(types) if types else None
 
 # Function to generate grocery list from chosen recipes
 def GenerateUserGroceryList(recipes):
