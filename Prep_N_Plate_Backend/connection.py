@@ -7,14 +7,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-#.csv filepath
-filePath = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/recipes.csv"
-filePath2 = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
-
-#Read and clean CSV where no calorie data is present
-df = pd.read_csv(filePath)
-df = df.dropna(axis=0, subset='calories')
-
 # Function to extract integers from nested dictionary
 def extract_integers(data, integers=[]):
     for value in data.values():
@@ -43,11 +35,13 @@ def handle_survey():
 
         # Call SurveyInput to get the meals as specified by the survey array
         # DEBUG
-        print(integers)
-        meals = SurveyInput(integers, df, "meal_page.json")
+        meals = SurveyInput(integers)
 
         # Convert pandas df to dict so can be jsonified
         meals = meals.to_dict(orient='records')
+
+        with open('meal_page.json', 'w') as f:
+            json.dump(meals, f)
 
         # Use jsonify to serialize and return the data
         return jsonify(meals), 200
@@ -82,6 +76,13 @@ def handle_grocery_list():
 
     #return jsonified list
     return jsonify(groceries)
+
+@app.route('/get-meals', methods=['GET'])
+def get_meals():
+    with open('meal_page.json', 'r') as f:
+        meals_data = json.load(f)
+
+    return jsonify({'meals': meals_data})
 
 # Worry about this later
 # @app.route('/submit-recipe', methods=['POST'])

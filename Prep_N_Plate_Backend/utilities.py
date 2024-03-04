@@ -5,38 +5,32 @@ import json
 filePath = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/recipes.csv"
 filePath2 = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
 
+#Read the CSV into a DF
 df = pd.read_csv(filePath)
+
+#Clean the CSV by dropping Null caloric values, removing duplicate rows, and renaming weird names.
 df = df.dropna(axis=0, subset='calories')
-df = df.rename(columns={'#cakeweek': 'dessert', '22-minute meals': 'twentyMinMeals', '22-minute meals': 'twentyMinMeals', 'dairy free': 'dairyFree', 'peanut free': 'nutFree'})
+df_transposed = df.T
+df_transposed = df_transposed.drop_duplicates(keep='last')
+df = df_transposed.T
+df = df.rename(columns={'22-minute meals': 'twentyMinMeals', 'dairy free': 'dairyFree', 'peanut free': 'nutFree'})
 
+def SurveyInput(int_arr):
+    df_loc = df
+    column_dict = {0: 'breakfast', 1: 'lunch', 2: 'dinner', 3: 'twentyMinMeals', 4: 'dessert', 5: 'calories',
+                   6: 'vegetarian', 7: 'vegan', 8: 'nutFree', 9: 'dairyFree'}
 
-def SurveyInput(int_arr, df, output_file):
-    # If no preferences are selected, write only titles to the output file
-    if all(x == 0 for x in int_arr):
-        titles_df = df[['title']]
-        titles_json = titles_df.to_dict(orient='index')
-        titles_json = {str(key): value['title'] for key, value in titles_json.items()}
-        with open(output_file, 'w') as f:
-            json.dump(titles_json, f)
-        return titles_df
+    for i in range(len(int_arr)):
+        if int_arr[i] == 0:
+            df_loc = df_loc[df_loc[column_dict[i]] != 1]
 
-    else:
-        # Filter out all columns except 'title'
-        titles_df = df[['title']]
+    df_loc = df_loc[['title']]
 
-        # Limit to 200 recipes if more than 200 are available
-        if len(titles_df) > 500:
-            titles_df = titles_df.head(500)
+    # Gets you a random 500 selected
+    if len(df_loc) > 250:
+        df_loc = df_loc.sample(n=250)
 
-        # Write the filtered DataFrame to the output file
-        titles_json = titles_df.to_dict(orient='index')
-        titles_json = {str(key): value['title'] for key, value in titles_json.items()}
-        with open(output_file, 'w') as f:
-            f.truncate(0)  # Clear the file
-            json.dump(titles_json, f)
-
-        return titles_df
-
+    return df_loc
 
 # Function to generate grocery list from chosen recipes
 def GenerateUserGroceryList(recipes):
