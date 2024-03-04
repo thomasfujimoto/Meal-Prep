@@ -10,19 +10,19 @@ df = pd.read_csv(filePath)
 
 #Clean the CSV by dropping Null caloric values, removing duplicate rows, and renaming weird names.
 df = df.dropna(axis=0, subset='calories')
-df_transposed = df.T
-df_transposed = df_transposed.drop_duplicates(keep='last')
-df = df_transposed.T
 df = df.rename(columns={'22-minute meals': 'twentyMinMeals', 'dairy free': 'dairyFree', 'peanut free': 'nutFree'})
 
 def SurveyInput(int_arr):
     df_loc = df
     column_dict = {0: 'breakfast', 1: 'lunch', 2: 'dinner', 3: 'twentyMinMeals', 4: 'dessert', 5: 'calories',
                    6: 'vegetarian', 7: 'vegan', 8: 'nutFree', 9: 'dairyFree'}
+    intersection_list = []
 
     for i in range(len(int_arr)):
-        if int_arr[i] == 0:
-            df_loc = df_loc[df_loc[column_dict[i]] != 1]
+        if int_arr[i] == 1:
+            intersection_list.append(column_dict[i])
+
+    df_loc = df_loc[df_loc[intersection_list].all(axis=1)]
 
     df_loc = df_loc[['title']]
 
