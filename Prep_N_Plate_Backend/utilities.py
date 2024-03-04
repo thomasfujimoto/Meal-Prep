@@ -1,38 +1,32 @@
 import pandas as pd
 import json
 
-# Function to filter recipes based on user preferences
-import json
-
 def SurveyInput(int_arr, df, output_file):
-    # Mapping of indices to column names
-    column_dict = {0: "breakfast", 1: "lunch", 2: "dinner", 3: "vegetarian", 4: "vegan", 5: "treeNutFree", 6: "sugarConscious", 7: "tTMinute", 8: "calories"}
-
-    # If no preferences are selected, write the entire DataFrame to the output file
+    # If no preferences are selected, write only titles to the output file
     if all(x == 0 for x in int_arr):
-        df.to_json(output_file)
-        return df  
+        titles_df = df[['title']]
+        titles_json = titles_df.to_dict(orient='index')
+        titles_json = {str(key): value['title'] for key, value in titles_json.items()}
+        with open(output_file, 'w') as f:
+            json.dump(titles_json, f)
+        return titles_df  
 
     else:
-        # Drop columns based on the selected preferences
-        columns_to_drop = [column_dict[val] for val in int_arr if val == 0]
-        df = df.drop(columns_to_drop, axis=1)
-        
-        # Ensure the last three columns are breakfast, lunch, and dinner
-        columns_remaining = df.columns.tolist()
-        columns_to_reorder = [col for col in ['breakfast', 'lunch', 'dinner'] if col in columns_remaining]
-        column_order = [col for col in columns_remaining if col not in columns_to_reorder] + columns_to_reorder
-        df = df[column_order]
+        # Filter out all columns except 'title'
+        titles_df = df[['title']]
         
         # Limit to 200 recipes if more than 200 are available
-        if len(df) > 500:
-            df = df.head(500)
+        if len(titles_df) > 500:
+            titles_df = titles_df.head(500)
         
         # Write the filtered DataFrame to the output file
-        df.to_json(output_file)
+        titles_json = titles_df.to_dict(orient='index')
+        titles_json = {str(key): value['title'] for key, value in titles_json.items()}
+        with open(output_file, 'w') as f:
+            f.truncate(0)  # Clear the file
+            json.dump(titles_json, f)
         
-        return df
-
+        return titles_df
 
 # Function to generate grocery list from chosen recipes
 def GenerateUserGroceryList(recipes):
