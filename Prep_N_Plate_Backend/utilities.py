@@ -1,6 +1,15 @@
 import pandas as pd
 import json
 
+#.csv filepath
+filePath = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/recipes.csv"
+filePath2 = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
+
+df = pd.read_csv(filePath)
+df = df.dropna(axis=0, subset='calories')
+df = df.rename(columns={'#cakeweek': 'dessert', '22-minute meals': 'twentyMinMeals', '22-minute meals': 'twentyMinMeals', 'dairy free': 'dairyFree', 'peanut free': 'nutFree'})
+
+
 def SurveyInput(int_arr, df, output_file):
     # If no preferences are selected, write only titles to the output file
     if all(x == 0 for x in int_arr):
@@ -9,24 +18,25 @@ def SurveyInput(int_arr, df, output_file):
         titles_json = {str(key): value['title'] for key, value in titles_json.items()}
         with open(output_file, 'w') as f:
             json.dump(titles_json, f)
-        return titles_df  
+        return titles_df
 
     else:
         # Filter out all columns except 'title'
         titles_df = df[['title']]
-        
+
         # Limit to 200 recipes if more than 200 are available
         if len(titles_df) > 500:
             titles_df = titles_df.head(500)
-        
+
         # Write the filtered DataFrame to the output file
         titles_json = titles_df.to_dict(orient='index')
         titles_json = {str(key): value['title'] for key, value in titles_json.items()}
         with open(output_file, 'w') as f:
             f.truncate(0)  # Clear the file
             json.dump(titles_json, f)
-        
+
         return titles_df
+
 
 # Function to generate grocery list from chosen recipes
 def GenerateUserGroceryList(recipes):
@@ -80,9 +90,9 @@ def OneDaySchedule(recipes):
     l_schedules = dict()
     d_schedules = dict()
 
-    b_schedules[recipe[0]] =  get_recipe_slice(recipe)
-    l_schedules[recipe[1]] =  get_recipe_slice(recipe)
-    d_schedules[recipe[2]] =  get_recipe_slice(recipe)
+    b_schedules[recipes[0]] =  get_recipe_slice(recipes[0])
+    l_schedules[recipes[1]] =  get_recipe_slice(recipes[1])
+    d_schedules[recipes[2]] =  get_recipe_slice(recipes[2])
     
     return [b_schedules, l_schedules, d_schedules]
 

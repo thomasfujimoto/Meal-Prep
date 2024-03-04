@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from utilities import SurveyInput
+from utilities import SurveyInput, GenerateUserSchedule, GenerateUserGroceryList
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -8,8 +8,8 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 #.csv filepath
-filePath = "Prep-N-Plate/Prep_N_Plate_Backend/archive/recipes.csv"
-filePath2 = "Prep-N-Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
+filePath = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/recipes.csv"
+filePath2 = "/Users/vivansinghal/Documents/CSE115AProject/Prep_N_Plate/Prep_N_Plate_Backend/archive/full_format_recipes.json"
 
 #Read and clean CSV where no calorie data is present
 df = pd.read_csv(filePath)
@@ -32,20 +32,28 @@ def extract_recipes(data, recipes=[]):
 
 @app.route('/submit-survey', methods=['POST'])
 def handle_survey():
-    survey_data = request.json
+    if not request.is_json:
+        return jsonify({"error": "Request must be JSON"}), 400
 
-    # Initialize an empty list to store integers
-    integers = extract_integers(survey_data)
+    survey_data = request.get_json()
 
-    #Call SurveyInput to get the meals as specified by the survey array
-    meals = SurveyInput(integers, df, 'meal_page.json')
+    try:
+        # Initialize an empty list to store integers
+        integers = extract_integers(survey_data, [])
 
-    # #Convert pandas df to dict so can be jsonified
-    # meals.to_dict(orient='records')
-    
-    # Use jsonify to serialize and return the data
-    return jsonify({'message': 'Survey received successfully'}), 200
+        # Call SurveyInput to get the meals as specified by the survey array
+        # DEBUG
+        print(integers)
+        meals = SurveyInput(integers, df, "meal_page.json")
 
+        # Convert pandas df to dict so can be jsonified
+        meals = meals.to_dict(orient='records')
+
+        # Use jsonify to serialize and return the data
+        return jsonify(meals), 200
+    except Exception as e:
+        # Handle errors
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/submit-recipes', methods=['POST'])
 def handle_scheduling_recipes():
@@ -58,7 +66,7 @@ def handle_scheduling_recipes():
     schedule = GenerateUserSchedule(recipes)
 
     #return jsonified list
-    return jsonify({'message': 'Recipes received successfully'}), 200
+    return jsonify(schedule)
 
 
 #Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
@@ -70,18 +78,10 @@ def handle_grocery_list():
     recipes = extract_recipes(survey_data)
 
     #Generate the grocery list from the recipes
-    groceries = GenerateGroceryList(recipes)
+    groceries = GenerateUserGroceryList(recipes)
 
     #return jsonified list
     return jsonify(groceries)
-
-@app.route('/get-meals', methods=['GET'])
-def get_meals():
-    with open('meal_page.json', 'r') as f:
-        meals_data = f.readlines()
-    meals = [meal.strip() for meal in meals_data]
-   
-    return jsonify({'meals': meals})
 
 # Worry about this later
 # @app.route('/submit-recipe', methods=['POST'])
