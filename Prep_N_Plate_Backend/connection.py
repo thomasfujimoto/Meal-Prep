@@ -63,7 +63,7 @@ def handle_scheduling_recipes():
     #schedule = GenerateUserSchedule(recipes)
 
     #return jsonified list
-    return jsonify(message="Success: Meals submitted successfully"),200
+    return jsonify(message="Success: Meals submitted successfully"), 200
 
 
 #Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
