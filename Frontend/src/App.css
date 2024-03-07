@@ -1,0 +1,61 @@
+/*Aligns landing page logo and button*/
+body { 
+  background-color: #eeeee4;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Title Style */
+.title {
+  font-size: 40px;; 
+  font-weight: bold;
+  font-family: 'Lato', sans-serif; 
+  margin-top: 20px; 
+  margin-bottom: 20px; 
+  text-align: center;
+  color: #3c6729;; 
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the container horizontally */
+  margin: 10px auto; /* Margin on top and bottom, and auto margins on left and right */
+}
+
+/*navigation button style*/
+.button {
+  padding: 20px 30px; 
+  font-family: 'Lato', sans-serif; 
+  font-weight: bold; 
+  font-size: 16px; 
+  letter-spacing: 1px;
+  border: none;
+  background-color: #3c6729; 
+  color: white;
+  cursor: pointer;
+  border-radius: 30px;
+  text-decoration: none;
+}
+
+/*back button position*/
+.back {
+  position: fixed;
+  bottom: 20px; /* Adjust bottom position as needed */
+  left: 50px; /* Adjust left position as needed */
+  z-index: 999; /* Adjust z-index as needed */
+}
+
+/*next button position*/
+.next {
+  position: fixed;
+  bottom: 20px; /* Adjust bottom position as needed */
+  right: 50px; /* Adjust left position as needed */
+  z-index: 999; /* Adjust z-index as needed */
+}

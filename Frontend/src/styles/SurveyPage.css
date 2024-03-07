@@ -1,0 +1,42 @@
+/* Survey Page Styles */
+.survey-question {
+    color: #3c6729;
+    font-size: 34px;
+    margin-left: 70px;
+    margin-bottom: 15px;
+  }
+  
+  .survey-options {
+    margin-left: 130px;
+  }
+  
+  .survey-radio-label,
+  .survey-checkbox-label {
+    font-family: Arial;
+    font-size: 28px;
+    color: #3c6729;
+  }
+  
+  .survey-radio-label input,
+  .survey-checkbox-label input {
+    margin-right: 10px;
+  }
+  
+  .survey-back-button,
+  .survey-forward-button {
+    margin-top: 20px;
+  }
+
+.submit-button {
+  background-color: #3c6729;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #2e4c1e;
+}

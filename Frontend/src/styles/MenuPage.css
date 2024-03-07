@@ -1,0 +1,61 @@
+/* Menu Page Classes*/
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the container horizontally */
+    margin: 10px auto; /* Margin on top and bottom, and auto margins on left and right */
+}
+  
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #b8d8be;
+    margin: 10px;
+    border-radius: 15%;
+}
+
+.meals-container {
+  display: flex;
+  justify-content: space-between;
+}
+.meals-list {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+  
+.meal-item {
+    border: 1px solid #ccc; /* Add border around each food item */
+    padding: 15px;
+    margin-bottom: 10px; /* Add margin between food items */
+    margin-right: 10px; /* Add margin to the right of each food item */
+    transition: background-color 0.3s; /* Add transition effect */
+    border-radius: 10px; /* Add border radius to curve the boxes */
+    background-color: white; /* Change background color to white */
+}
+  
+  .meal-item:hover,
+  .meal-item.selected {
+      background-color:  #abd1b5; /* Change background color when hovered over or selected */
+  }
+  
+  .meal-column:last-child .meal-item {
+      margin-right: 0; /* Remove margin from the last food item in each column */
+  }
+  
+  
+/* Meal Column Title Styling */
+.meal-column-title {
+    /* Your styles for the "Breakfast" title here */
+    color: #3c6729; /* For example, change the color to blue */
+    font-size: 24px; /* For example, change the font size */
+    text-align: center;
+}
+
+/* Meal Column Contents Styling */
+.meal-column {
+    flex: 1;
+    text-align: center;
+    color: #3c6729;
+    font-weight: bold;
+}
