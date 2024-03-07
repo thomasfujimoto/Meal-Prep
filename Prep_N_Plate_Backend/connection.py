@@ -17,9 +17,13 @@ def extract_integers(data, integers=[]):
     return integers
 
 def extract_recipes(data, recipes=[]):
-    for value in data.values():
-        if isinstance(value, str):
-            recipes.append(value)
+    pair = []
+    for dict in data:
+        for value in dict.values():
+            pair.append(value)
+            if len(pair) == 2:
+                recipes.append(pair)
+                pair = []
     return recipes
 
 @app.route('/submit-survey', methods=['POST'])
@@ -49,33 +53,35 @@ def handle_survey():
         # Handle errors
         return jsonify({"error": str(e)}), 500
 
-@app.route('/submit-recipes', methods=['POST'])
+@app.route('/submit-meals', methods=['POST'])
 def handle_scheduling_recipes():
     survey_data = request.json
 
     #Convert data to recipes list
-    recipes = extract_recipes(survey_data)
+
+    recipes = extract_recipes(survey_data, [])
 
     #Generate the user's weekly schedule from the list of 21 recipes
     schedule = GenerateUserSchedule(recipes)
 
+    with open('schedule_page.json', 'w') as f:
+        json.dump(schedule, f)
     #return jsonified list
-    return jsonify(schedule)
-
+    return jsonify(schedule),200
 
 #Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
 @app.route('/submit-recipes-grocery', methods=['POST'])
 def handle_grocery_list():
     survey_data = request.json
-
+    survey_data = dict(survey_data)
     #Convert data to recipes list
     recipes = extract_recipes(survey_data)
 
     #Generate the grocery list from the recipes
-    groceries = GenerateUserGroceryList(recipes)
+    #groceries = GenerateUserGroceryList(recipes)
 
     #return jsonified list
-    return jsonify(groceries)
+    return jsonify("Message Received"), 200
 
 @app.route('/get-meals', methods=['GET'])
 def get_meals():
@@ -83,6 +89,13 @@ def get_meals():
         meals_data = json.load(f)
 
     return jsonify({'meals': meals_data})
+
+@app.route('/get-schedule', methods=['GET'])
+def get_schedule():
+    with open('schedule_page.json', 'r') as f:
+        schedule_data = json.load(f)
+
+    return jsonify({'schedule': schedule_data})
 
 # Worry about this later
 # @app.route('/submit-recipe', methods=['POST'])

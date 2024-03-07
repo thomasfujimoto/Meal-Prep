@@ -92,27 +92,31 @@ def get_total_ingredients(recipe_name):
 # Function to generate user schedule from chosen recipes
 def GenerateUserSchedule(recipes):
     user_schedule = []
-    return_list = []
+
+    sorting_order = {"breakfast": 1, "lunch": 2, "dinner": 3}
+    sorted_recipes = sorted(recipes, key=lambda x: sorting_order[x[1]])
+    recipes = []
+    for meal_pair in sorted_recipes:
+        #Append only the first of each pair and drop the sorting classifier and extra space.
+        recipes.append(meal_pair[0][:len(meal_pair[0])-1])
+
     for i in range(7):
         day_schedule = [recipes[i], recipes[i + 7], recipes[i + 14]]
         user_schedule.append(day_schedule)
-  
-    for i in user_schedule:
-        return_list.append(OneDaySchedule(user_schedule[i]))
 
-    return return_list
+    return user_schedule
 
 # Function to generate one day's schedule
-def OneDaySchedule(recipes):
-    b_schedules = dict()
-    l_schedules = dict()
-    d_schedules = dict()
-
-    b_schedules[recipes[0]] =  get_recipe_slice(recipes[0])
-    l_schedules[recipes[1]] =  get_recipe_slice(recipes[1])
-    d_schedules[recipes[2]] =  get_recipe_slice(recipes[2])
-    
-    return [b_schedules, l_schedules, d_schedules]
+# def OneDaySchedule(recipes):
+#     b_schedules = dict()
+#     l_schedules = dict()
+#     d_schedules = dict()
+#
+#     b_schedules[recipes[0]] =  get_recipe_slice(recipes[0])
+#     l_schedules[recipes[1]] =  get_recipe_slice(recipes[1])
+#     d_schedules[recipes[2]] =  get_recipe_slice(recipes[2])
+#
+#     return [b_schedules, l_schedules, d_schedules]
 
 # Function to extract recipe details from JSON
 def get_recipe_slice(recipe_name):
