@@ -60,13 +60,7 @@ def handle_scheduling_recipes():
     print(survey_data)
 
     #Convert data to recipes list
-<<<<<<< HEAD
-
     recipes = extract_recipes(survey_data, [])
-=======
-    
-    #recipes = extract_recipes(survey_data)
->>>>>>> a750ffb60a1e9ccbdb7bcb95474cc65a13e087f4
 
     #Generate the user's weekly schedule from the list of 21 recipes
     #schedule = GenerateUserSchedule(recipes)
@@ -74,12 +68,9 @@ def handle_scheduling_recipes():
     with open('schedule_page.json', 'w') as f:
         json.dump(schedule, f)
     #return jsonified list
-<<<<<<< HEAD
     return jsonify(schedule),200
-=======
     return jsonify(message="Success: Meals submitted successfully"),200
 
->>>>>>> a750ffb60a1e9ccbdb7bcb95474cc65a13e087f4
 
 #Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
 @app.route('/submit-recipes-grocery', methods=['POST'])
