@@ -57,18 +57,21 @@ def handle_survey():
 def handle_scheduling_recipes():
     survey_data = request.json
 
-    print(survey_data)
+    # print(survey_data)
 
     #Convert data to recipes list
     recipes = extract_recipes(survey_data, [])
 
     #Generate the user's weekly schedule from the list of 21 recipes
-    #schedule = GenerateUserSchedule(recipes)
+    schedule = GenerateUserSchedule(recipes)
 
     with open('schedule_page.json', 'w') as f:
-        json.dump(schedule, f)
+         json.dump(schedule, f)
+
+    print(schedule)
+        
     #return jsonified list
-    return jsonify(schedule),200
+    # return jsonify(schedule),200
     return jsonify(message="Success: Meals submitted successfully"),200
 
 
