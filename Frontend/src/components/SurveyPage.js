@@ -229,7 +229,7 @@ const ForwardButton = ({ to, text }) => {
 
 const SubmitButton = ({ text, onClick }) => {
   return (
-    <button className="submit-button" onClick={onClick}>
+    <button className="submit button" onClick={onClick}>
       {text}
     </button>
   );

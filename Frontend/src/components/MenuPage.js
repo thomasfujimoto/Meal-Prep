@@ -98,8 +98,9 @@ const MenuPage = () => {
       </div>
       <div className="navigation">
         <BackButton to="/SurveyPage" text="Back to Survey" />
+        <ForwardButton to="/PlannerPage" text="next" />
       </div>
-      <button className="next button" onClick={handleSubmit}>Submit</button>
+      <button className="submit button" onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
@@ -107,6 +108,14 @@ const MenuPage = () => {
 const BackButton = ({ to, text }) => {
   return (
     <Link to={to} className="back button">
+      {text}
+    </Link>
+  );
+};
+
+const ForwardButton = ({ to, text }) => {
+  return (
+    <Link to={to} className="next button">
       {text}
     </Link>
   );

@@ -28,6 +28,11 @@
   background-color: #cae1ce;
   padding: 30px;
   cursor: pointer;
+  display: flex;
+  justify-content: center; /* Center align the content horizontally */
+  align-items: center; /* Center align the content vertically */
+  min-height: 100px; /* Set a minimum height for consistent sizing */
+  border-radius: 10px; /* Add some border-radius for rounded corners */
 }
 
 .meal:hover {

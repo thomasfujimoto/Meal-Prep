@@ -59,3 +59,12 @@ body {
   right: 50px; /* Adjust left position as needed */
   z-index: 999; /* Adjust z-index as needed */
 }
+
+/* submit button position */
+.submit {
+  position: fixed;
+  bottom: 20px; /* Adjust bottom position as needed */
+  left: 50%; /* Adjust left position to center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  z-index: 999; /* Adjust z-index as needed */
+}
