@@ -1,23 +1,10 @@
 /* Menu Page Classes*/
 
-.box-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Center the container horizontally */
-    margin: 10px auto; /* Margin on top and bottom, and auto margins on left and right */
-}
-  
-.box {
-    width: 200px;
-    height: 200px;
-    background-color: #b8d8be;
-    margin: 10px;
-    border-radius: 15%;
-}
-
 .meals-container {
   display: flex;
   justify-content: space-between;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 .meals-list {
     list-style-type: none; /* Remove bullet points */
@@ -47,7 +34,7 @@
 /* Meal Column Title Styling */
 .meal-column-title {
     /* Your styles for the "Breakfast" title here */
-    color: #3c6729; /* For example, change the color to blue */
+    color: black; /* For example, change the color to blue */
     font-size: 24px; /* For example, change the font size */
     text-align: center;
 }
@@ -56,6 +43,6 @@
 .meal-column {
     flex: 1;
     text-align: center;
-    color: #3c6729;
+    color: black;
     font-weight: bold;
 }

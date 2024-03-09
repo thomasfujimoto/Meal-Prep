@@ -1,13 +1,15 @@
 /* Survey Page Styles */
 .survey-question {
+    text-align: center;
     color: #3c6729;
     font-size: 34px;
     margin-left: 70px;
     margin-bottom: 15px;
   }
-  
   .survey-options {
-    margin-left: 130px;
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center the options horizontally */
+    flex-wrap: wrap; /* Allow wrapping of options */
   }
   
   .survey-radio-label,

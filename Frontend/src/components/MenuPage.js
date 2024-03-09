@@ -97,7 +97,7 @@ const MenuPage = () => {
         </div>
       </div>
       <div className="navigation">
-        <BackButton to="/SurveyPage" text="Back to Survey" />
+        <BackButton to="/SurveyPage" text="back" />
         <ForwardButton to="/GroceryList" text="next" />
       </div>
       <button className="submit button" onClick={handleSubmit}>submit</button>

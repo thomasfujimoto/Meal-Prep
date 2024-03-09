@@ -35,12 +35,12 @@ const RecipesPage = () => {
 
     return recipeSteps.recipes.map((recipe, index) => (
       <div key={index} className="recipe-box">
-        <h3>Recipe {index + 1}</h3>
-        {recipe.map((step, i) => (
-          <p key={i} className="recipe-step">
-            {step}
-          </p>
-        ))}
+        <h3 className = "recipe-title" key={index}>{recipe[0]}</h3>
+        <ul>
+          {recipe[1].map((ingredient, idx) => (
+              <li key={idx}>{ingredient}</li>
+          ))}
+        </ul>
       </div>
     ));
   };

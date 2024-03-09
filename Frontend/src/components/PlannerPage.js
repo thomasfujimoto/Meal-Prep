@@ -31,7 +31,7 @@ const PlannerPage = () => {
 
     return (
         <div className="planner-container">
-            <div className='plantitle'>PLANNER</div>
+            <div className='title'>PLANNER</div>
             <div className="planner">
                 {mealData && mealData.map((dayMeals, index) => ( // check to make sure array is able to be iterated over before iterating
                     <div key={index} WclassName="day">
@@ -51,7 +51,7 @@ const PlannerPage = () => {
                 ))}
             </div>
             <BackButton to="/MenuPage" text="back" />
-            <ForwardButton to="/GroceryList" text="next" />
+            <ForwardButton to="/SurveyPage" text="start over" />
         </div>
     );
 };

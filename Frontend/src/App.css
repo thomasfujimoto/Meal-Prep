@@ -13,13 +13,13 @@ body {
 
 /* Title Style */
 .title {
-  font-size: 40px;; 
+  font-size: 55px; /* Change font size to viewport width units for responsiveness */
   font-weight: bold;
   font-family: 'Lato', sans-serif; 
   margin-top: 20px; 
   margin-bottom: 20px; 
-  text-align: center;
-  color: #3c6729;; 
+  text-align: center; /* Center align the title */
+  color: #3c6729
 }
 
 .container {

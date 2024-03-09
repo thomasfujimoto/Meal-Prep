@@ -1,17 +1,17 @@
 .planner-container {
-  max-width: 800px; /* Increase max-width for a larger planner */
+  max-width: 90%; /* Change max-width to a percentage for responsiveness */
   margin: 0 auto;
   padding: 20px;
   text-align: center; /* Center align the content */
-  margin-left: 60px; /* Center align the content */
 }
 
 .planner {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Dynamic grid based on minimum and maximum width */
   gap: 20px; /* Increased gap between days */
   margin-top: 50px; /* Add margin to space out the planner vertically */
 }
+
 .day {
   border: 1px solid #ccc;
   padding: 15px;
@@ -55,14 +55,4 @@
   font-size: 16px;
   font-weight: bold;
   color: #3c6729;
-}
-
-.plantitle {
-  font-size: 40px;; 
-  font-weight: bold;
-  font-family: 'Lato', sans-serif; 
-  margin-top: 20px; 
-  margin-bottom: 20px; 
-  margin-left: 450px;
-  color: #3c6729;; 
 }

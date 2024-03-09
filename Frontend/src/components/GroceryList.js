@@ -29,10 +29,10 @@ const GroceryList = () => {
     return (
       <ul>
         {Array.isArray(ingredients) && ingredients.map((item, index) => (
-          <div key={index} className='recipe-list'>
-            <h3>item {index + 1}</h3>
+          <div key={index} className='grocery-box'>
+            <h3 key={index}>{item[0]}</h3>
             <ul>
-              {item.map((ingredient, idx) => (
+              {item[1].map((ingredient, idx) => (
                 <li key={idx}>{ingredient}</li>
               ))}
             </ul>
@@ -44,7 +44,7 @@ const GroceryList = () => {
 
   return (
     <div>
-      <div className='title'>Grocery List</div>
+      <div className='title'>GROCERY LIST</div>
       {renderGroceries()}
       <BackButton to="/MenuPage" text="back" />
       <ForwardButton to="/RecipesPage" text="next" />

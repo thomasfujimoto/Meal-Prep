@@ -5,3 +5,13 @@
     padding: 10px;
     margin-bottom: 20px; 
   }
+
+  .grocery-box {
+    padding: 10px;
+    margin: 0 20px 20px 20px; /* Added margin */
+    font-size: 20px;
+  }
+
+  .grocery-title{ 
+    text-align: center;
+  }
