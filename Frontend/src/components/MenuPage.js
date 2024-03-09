@@ -34,31 +34,40 @@ const MenuPage = () => {
   };
 
   const handleSubmit = async () => {
-    try {
-      const mealsToSend = selectedMeals.map(meal => ({
-        title: meal.title,
-        type: meal.type
-      }));
-  
-      const response = await fetch('http://localhost:5000/submit-meals', {
+  try {
+    const mealsToSend = selectedMeals.map(meal => ({
+      title: meal.title,
+      type: meal.type
+    }));
+
+    // Prepare the requests for both endpoints
+    const requests = ['http://localhost:5000/submit-meals', 'http://localhost:5000/submit-grocery'].map(url =>
+      fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(mealsToSend)
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to submit selected meals');
-      }
-  
-      console.log('Selected meals successfully submitted');
-      alert('Survey submitted successfully!');
-    } catch (error) {
-      console.error('Error submitting selected meals:', error);
-      alert('Error submitting selected meals:');
+      })
+    );
+
+    // Wait for both requests to complete
+    const responses = await Promise.all(requests);
+
+    // Check if any of the responses were not ok
+    const allResponsesOk = responses.every(response => response.ok);
+
+    if (!allResponsesOk) {
+      throw new Error('Failed to submit selected meals');
     }
-  };
+
+    console.log('Selected meals successfully submitted');
+    alert('Survey submitted successfully!');
+  } catch (error) {
+    console.error('Error submitting selected meals:', error);
+    alert('Error submitting selected meals:');
+  }
+};
   
 
   return (
