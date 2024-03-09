@@ -5,3 +5,63 @@
     margin-top: 20px;
   }
 
+  .pdf-download-container {
+    position: absolute;
+    top: 30px; /* For the pdf button*/
+    margin-left: 10px;
+  }
+  
+  .recipe-steps li {
+    margin-bottom: 50px; /* Adjust this value to increase or decrease spacing */
+  }
+
+  .recipe-steps {
+    list-style-type: none;
+  }
+
+  .recipe-steps strong {
+    display: block;
+    margin-bottom: 5px; /* Add spacing between step number and step description */
+  }
+  
+  .recipe-steps p {
+    display: block;
+    margin-bottom: 50px; /* Adjust this value to increase or decrease spacing between steps */
+    padding: 0;
+  }
+
+  body {
+    padding-bottom: 100px; /* Adjust the value for more space at the bottom of page*/
+  }
+
+  .green-text {
+    color: green;
+  }
+
+  .large-font {
+    font-size: 18px; /* Adjust the value as needed */
+  }
+
+  .header {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 20px; /* Add margin to bottom for spacing */
+  }
+  
+  .pdf-button {
+    margin-left: 50px;
+    margin-right: 500px; /* Add space between button and title */
+  }
+
+  .recipe-image {
+    width: 100px; /* Adjust the width of the image */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 500px; /* Add space between the title and the image */
+  }
+
+
+
+
+
+
+
