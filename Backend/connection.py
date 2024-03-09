@@ -78,7 +78,7 @@ def handle_recipes_list():
     meals = extract_meals(survey_data, [])
     # Generate the user's weekly schedule from the list of 21 recipes
     recipes = GenerateRecipes(meals)
-
+    
     with open('recipes_page.json', 'w') as f:
         json.dump(recipes, f)
 
