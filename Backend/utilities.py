@@ -2,8 +2,8 @@ import pandas as pd
 import json
 
 #.csv filepath
-filePath = "/Users/vivansinghal/Documents/CSE115AProject/Prep-N-Plate/Backend/archive/recipes.csv"
-filePath2 = "/Users/vivansinghal/Documents/CSE115AProject/Prep-N-Plate/Backend/archive/full_format_recipes.json"
+filePath = "archive/recipes.csv"
+filePath2 = "archive/full_format_recipes.json"
 
 #Read the CSV into a DF
 df = pd.read_csv(filePath)

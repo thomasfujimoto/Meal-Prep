@@ -51,6 +51,7 @@ const PlannerPage = () => {
                 ))}
             </div>
             <BackButton to="/MenuPage" text="back" />
+            <ForwardButton to="/GroceryList" text="next" />
         </div>
     );
 };
@@ -62,5 +63,13 @@ const BackButton = ({ to, text }) => {
         </Link>
     );
 };
+
+const ForwardButton = ({ to, text }) => {
+    return (
+      <Link to={to} className="next button">
+        {text}
+      </Link>
+    );
+  };
 
 export default PlannerPage;

@@ -53,26 +53,6 @@ def handle_survey():
         # Handle errors
         return jsonify({"error": str(e)}), 500
 
-@app.route('/submit-meals', methods=['POST'])
-def handle_scheduling_recipes():
-    survey_data = request.json
-
-    # print(survey_data)
-
-    #Convert data to recipes list
-    meals = extract_meals(survey_data, [])
-
-    #Generate the user's weekly schedule from the list of 21 recipes
-    schedule = GenerateUserSchedule(meals)
-
-    with open('schedule_page.json', 'w') as f:
-         json.dump(schedule, f)
-
-    #return jsonified list
-    # return jsonify(schedule),200
-    return jsonify(message="Success: Meals submitted successfully"),200
-
-
 #Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
 @app.route('/submit-grocery', methods=['POST'])
 def handle_grocery_list():
@@ -105,6 +85,28 @@ def handle_recipes_list():
     # return jsonified list
     #return jsonify(recipes)
     return jsonify(message="Success: Meals submitted successfully"), 200
+
+@app.route('/submit-meals', methods=['POST'])
+def handle_scheduling_recipes():
+    survey_data = request.json
+
+    # print(survey_data)
+
+    #Convert data to recipes list
+    meals = extract_meals(survey_data, [])
+
+    #Generate the user's weekly schedule from the list of 21 recipes
+    schedule = GenerateUserSchedule(meals)
+
+    with open('schedule_page.json', 'w') as f:
+         json.dump(schedule, f)
+
+    handle_grocery_list()
+    handle_recipes_list()
+
+    #return jsonified list
+    # return jsonify(schedule),200
+    return jsonify(message="Success: Meals submitted successfully"),200
 
 @app.route('/get-meals', methods=['GET'])
 def get_meals():
