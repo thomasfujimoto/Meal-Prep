@@ -76,6 +76,24 @@ def get_total_ingredients(recipe_name):
 
     return ["ingredients not available"]
 
+def GenerateRecipes(meals):
+    recipes_list = []
+    for meal_pair in meals:
+        #Append only the first of each pair and drop the sorting classifier
+        recipes_list += get_recipes(meal_pair[0][:len(meal_pair[0])])
+    return recipes_list
+
+def get_recipes(recipe_name):
+    # Read the JSON file containing recipes data
+    with open(filePath2, 'r') as file:
+        data = json.load(file)
+
+    for meal_dict in data:
+        if meal_dict.get('title') == recipe_name:
+            return [meal_dict.get('directions')]
+
+    return ["directions not available"]
+
 # Function to generate user schedule from chosen recipes
 def GenerateUserSchedule(recipes):
     user_schedule = []
@@ -92,31 +110,3 @@ def GenerateUserSchedule(recipes):
         user_schedule.append(day_schedule)
 
     return user_schedule
-
-# Function to generate one day's schedule
-# def OneDaySchedule(recipes):
-#     b_schedules = dict()
-#     l_schedules = dict()
-#     d_schedules = dict()
-#
-#     b_schedules[recipes[0]] =  get_recipe_slice(recipes[0])
-#     l_schedules[recipes[1]] =  get_recipe_slice(recipes[1])
-#     d_schedules[recipes[2]] =  get_recipe_slice(recipes[2])
-#
-#     return [b_schedules, l_schedules, d_schedules]
-
-# Function to extract recipe details from JSON
-def get_recipe_slice(recipe_name):
-    with open(filePath2, 'r') as f:
-        data = json.load(f)
-        recipe_json = None
-        for recipe in data['recipes']:
-            if recipe['title'] == recipe_name:
-                recipe_json = recipe['json']
-                break
-        if recipe_json:
-            start_index = recipe_json.find("fat")
-            end_index = recipe_json.find("]", start_index) + 1
-            if start_index != -1 and end_index != -1:
-                return recipe_json[start_index:end_index]
-        return None

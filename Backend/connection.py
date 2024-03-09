@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from utilities import SurveyInput, GenerateUserSchedule, GenerateUserGroceryList
+from utilities import SurveyInput, GenerateUserSchedule, GenerateUserGroceryList, GenerateRecipes
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -16,7 +16,7 @@ def extract_integers(data, integers=[]):
             integers.append(value)
     return integers
 
-def extract_recipes(data, recipes=[]):
+def extract_meals(data, recipes=[]):
     pair = []
     for dict in data:
         for value in dict.values():
@@ -60,10 +60,10 @@ def handle_scheduling_recipes():
     # print(survey_data)
 
     #Convert data to recipes list
-    recipes = extract_recipes(survey_data, [])
+    meals = extract_meals(survey_data, [])
 
     #Generate the user's weekly schedule from the list of 21 recipes
-    schedule = GenerateUserSchedule(recipes)
+    schedule = GenerateUserSchedule(meals)
 
     with open('schedule_page.json', 'w') as f:
          json.dump(schedule, f)
@@ -79,15 +79,31 @@ def handle_grocery_list():
     survey_data = request.json
 
     # Convert data to recipes list
-    recipes = extract_recipes(survey_data, [])
+    meals = extract_meals(survey_data, [])
     # Generate the user's weekly schedule from the list of 21 recipes
-    groceries = GenerateUserGroceryList(recipes)
+    groceries = GenerateUserGroceryList(meals)
 
     with open('grocery_page.json', 'w') as f:
         json.dump(groceries, f)
 
     # return jsonified list
     #return jsonify(groceries)
+    return jsonify(message="Success: Meals submitted successfully"), 200
+
+@app.route('/submit-recipes', methods=['POST'])
+def handle_recipes_list():
+    survey_data = request.json
+
+    # Convert data to recipes list
+    meals = extract_meals(survey_data, [])
+    # Generate the user's weekly schedule from the list of 21 recipes
+    recipes = GenerateRecipes(meals)
+
+    with open('recipes_page.json', 'w') as f:
+        json.dump(recipes, f)
+
+    # return jsonified list
+    #return jsonify(recipes)
     return jsonify(message="Success: Meals submitted successfully"), 200
 
 @app.route('/get-meals', methods=['GET'])
@@ -110,6 +126,13 @@ def get_grocery():
         grocery_data = json.load(f)
 
     return jsonify({'grocery': grocery_data})
+
+@app.route('/get-recipes', methods=['GET'])
+def get_recipes():
+    with open('recipes_page.json', 'r') as f:
+        recipes_data = json.load(f)
+
+    return jsonify({'recipes': recipes_data})
 
 # Worry about this later
 # @app.route('/submit-recipe', methods=['POST'])
