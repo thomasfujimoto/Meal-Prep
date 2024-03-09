@@ -41,7 +41,7 @@ const MenuPage = () => {
     }));
 
     // Prepare the requests for both endpoints
-    const requests = ['http://localhost:5000/submit-meals', 'http://localhost:5000/submit-grocery'].map(url =>
+    const requests = ['http://localhost:5000/submit-meals', 'http://localhost:5000/submit-grocery', 'http://localhost:5000/submit-recipes'].map(url =>
       fetch(url, {
         method: 'POST',
         headers: {
