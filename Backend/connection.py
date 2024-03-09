@@ -68,26 +68,27 @@ def handle_scheduling_recipes():
     with open('schedule_page.json', 'w') as f:
          json.dump(schedule, f)
 
-    print(schedule)
-        
     #return jsonified list
     # return jsonify(schedule),200
     return jsonify(message="Success: Meals submitted successfully"),200
 
 
 #Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
-@app.route('/submit-recipes-grocery', methods=['POST'])
+@app.route('/submit-grocery', methods=['POST'])
 def handle_grocery_list():
     survey_data = request.json
-    survey_data = dict(survey_data)
-    #Convert data to recipes list
-    recipes = extract_recipes(survey_data)
 
-    #Generate the grocery list from the recipes
-    #groceries = GenerateUserGroceryList(recipes)
+    # Convert data to recipes list
+    recipes = extract_recipes(survey_data, [])
+    # Generate the user's weekly schedule from the list of 21 recipes
+    groceries = GenerateUserGroceryList(recipes)
 
-    #return jsonified list
-    return jsonify("Message Received"), 200
+    with open('grocery_page.json', 'w') as f:
+        json.dump(groceries, f)
+
+    # return jsonified list
+    #return jsonify(groceries)
+    return jsonify(message="Success: Meals submitted successfully"), 200
 
 @app.route('/get-meals', methods=['GET'])
 def get_meals():
@@ -102,6 +103,13 @@ def get_schedule():
         schedule_data = json.load(f)
 
     return jsonify({'schedule': schedule_data})
+
+@app.route('/get-grocery', methods=['GET'])
+def get_grocery():
+    with open('grocery_page.json', 'r') as f:
+        grocery_data = json.load(f)
+
+    return jsonify({'grocery': grocery_data})
 
 # Worry about this later
 # @app.route('/submit-recipe', methods=['POST'])

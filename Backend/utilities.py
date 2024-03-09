@@ -2,8 +2,8 @@ import pandas as pd
 import json
 
 #.csv filepath
-filePath = "archive/recipes.csv"
-filePath2 = "archive/full_format_recipes.json"
+filePath = "/Users/vivansinghal/Documents/CSE115AProject/Prep-N-Plate/Backend/archive/recipes.csv"
+filePath2 = "/Users/vivansinghal/Documents/CSE115AProject/Prep-N-Plate/Backend/archive/full_format_recipes.json"
 
 #Read the CSV into a DF
 df = pd.read_csv(filePath)
@@ -59,8 +59,9 @@ def determine_meal_type(row):
 # Function to generate grocery list from chosen recipes
 def GenerateUserGroceryList(recipes):
     grocery_list = []
-    for recipe in recipes:
-        grocery_list += get_total_ingredients(recipe)
+    for meal_pair in recipes:
+        #Append only the first of each pair and drop the sorting classifier
+        grocery_list += get_total_ingredients(meal_pair[0][:len(meal_pair[0])])
     return grocery_list
 
 # Function to extract ingredients from recipes
@@ -68,26 +69,12 @@ def get_total_ingredients(recipe_name):
     # Read the JSON file containing recipes data
     with open(filePath2, 'r') as file:
         data = json.load(file)
-    
-    total_ingredients = {}
-    
-    recipe_data = None
-    for key in data.keys():
-        if recipe_name.lower() in key.lower():
-            recipe_data = data[key]
-            break
-        
-    if recipe_data:
-        start_index = recipe_data.find('"fat"')
-        end_index = recipe_data.find(']', start_index)
-        if start_index != -1 and end_index != -1:
-            ingredients_json = recipe_data[start_index:end_index+1]
-            ingredients = json.loads(ingredients_json)
-            
-            for ingredient in ingredients:
-                total_ingredients[ingredient] = total_ingredients.get(ingredient, 0) + 1
-    
-    return total_ingredients
+
+    for meal_dict in data:
+        if meal_dict.get('title') == recipe_name:
+            return [meal_dict.get('ingredients')]
+
+    return ["ingredients not available"]
 
 # Function to generate user schedule from chosen recipes
 def GenerateUserSchedule(recipes):
