@@ -1,42 +1,7 @@
-.hor-container {
-    width: 90%;
-    display: flex;
-	/*border: 5px solid blue;*/
-    align-items: center; /* wrt cross-axis */
-    justify-content: space-between;
-}
-
-.hor-item {
-    width: 200px;
-    min-height: 20px;
-    margin: 10px;
-    padding: 5px;
-    align-self: center;
-}
-
-.hor-left {
-    max-width: 10%;
-    text-align: left; 
-}
-
-.hor-right {
-    max-width: 10%;
-    text-align: right; 
-}
-
-.hor-mid {
-    min-width: 50%;
-    max-width: 80%;
-    flex-grow: 4;
-    text-align: left; 
-}
-
-.top {
-    position:absolute;
-    top:0;
-}
-
-.topleft {
-    position:absolute;
-    left:0;
-}
+/* Add a border around each ingredient list */
+/* Add a border around each ingredient list with light green color */
+.recipe-list {
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px; 
+  }

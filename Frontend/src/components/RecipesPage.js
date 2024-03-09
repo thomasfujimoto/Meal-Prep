@@ -2,116 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import '../styles/RecipesPage.css';
-import logo from '../images/prepandplate1.png'
-//import html2canvas from 'html2canvas'
-//import jsPDF from 'jspdf'
-
+import logo from '../images/prepandplate1.png';
 
 const RecipesPage = () => {
-  // Example recipe data (you can replace this with your actual recipe data)
-  const recipeUrl = 'http://localhost:5000/RecipesPage'
+  const [recipeSteps, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const leftLink = "/GroceryList"
-  const rightLink = "/PlannerPage"
-
-  const fakeRecipe = [ {id: "1", name:'Cook spaghetti according to package instructions.'},
-    {id: "2", name:  'In a skillet, cook bacon until crispy. Remove bacon and set aside. Keep the bacon fat in the skillet.'},
-    {id: "3", name:  'In a bowl, whisk together eggs, grated cheese, salt, and pepper.'},
-    {id: "4", name:  'Add cooked spaghetti to the skillet with bacon fat. Toss to coat the spaghetti in the fat.'},
-    {id: "5", name:  'Remove skillet from heat. Quickly add the egg and cheese mixture to the spaghetti, stirring continuously to coat the spaghetti.'},
-    {id: "6", name:  'Crumble the cooked bacon and add it to the skillet. Stir to combine. Serve immediately.'}
-  ]
-
-  async function getRecipe(){
-    try {
-      const response = await fetch (recipeUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+  // Get recipe from backend
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/get-recipes');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
         }
-      });
+        const data = await response.json();
+        setRecipe(data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
 
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.log(error)
-      return fakeRecipe;
-    }
-  }
+    fetchRecipe();
+  }, []);
 
-  const fetchRecipe = async () => {
-    /*
-    const g = localStorage.getItem("RecipePage")
-    if (g) {
-      setRecipe(JSON.parse(g))
-      return;
-    } else {
-      const data = await getRecipe();
-      setRecipe(data);
+  // Render each recipe step in a bordered box
+  const renderRecipes = () => {
+    if (loading) {
+      return <div>Loading...</div>;
     }
-    */
-    const data = await getRecipe();
-    setRecipe(data);
+
+    return recipeSteps.recipes.map((recipe, index) => (
+      <div key={index} className="recipe-box">
+        <h3>Recipe {index + 1}</h3>
+        {recipe.map((step, i) => (
+          <p key={i} className="recipe-step">
+            {step}
+          </p>
+        ))}
+      </div>
+    ));
   };
 
-  const [recipeSteps, setRecipe] = useState([]);
-
-/*
-  const pdfRef = useRef()
-
-  const genPdf = () => {
-    const input = pdfRef.current;
-    html2canvas(input).then( canvas => {
-      const imgData = canvas.toDataURL("image/png")
-      const pdf = jsPDF("p", "mm", "letter", true)
-      const width = pdf.internal.pageSize.getWidth()
-      const height = pdf.internal.pageSize.getHeight()
-      const imgWidth = canvas.width
-      const imgHeight = canvas.height
-      const ratio = Math.min(width/imgWidth, height/imgHeight)
-      const imageX = (width - imgWidth*ratio) / 2
-      const imageY = 30
-      pdf.addImage(imgData, 'PNG', imageX, imageY, imgWidth*ratio, imgHeight*ratio)
-      pdf.save('recipe.pdf')
-    })
-  }
-*/
-  
-
-  useEffect(() => {
-    fetchRecipe()
-  }, [])
-
+  // Return Recipe if successful/not null
   return (
-    <>
-      
-      <div className='center-container'>
-        
-          <div  className='hor-container'>
-            <div className='hor-item hor-mid title'><center>Recipe</center></div>
-            <div className='hor-item hor-right'><img width='100' src={logo} alt="Logo"/></div>
-          </div>
-          <div className='hor-item hor-mid'>
-            {recipeSteps.map((item, index) => (            
-              <div key={item._id}>
-                <p>{index+1}. {item.name}</p>
-              </div>
-            ))}
-
-          </div>
-        
-        <div className='hor-container'>
-          <BackButton to={leftLink} text="Grocery List" />
-          <ForwardButton to={rightLink} text="Weekly Planner" />
-        </div>
-      </div>
-    </>
-  )
-}
+    <div>
+        <div className="title">RECIPE</div>
+      <div className="recipe-steps">{renderRecipes()}</div>
+      <BackButton to="/GroceryList" text="<- Grocery List" />
+      <ForwardButton to="/PlannerPage" text="Weekly Planner ->" />
+    </div>
+  );
+};
 
 const BackButton = ({ to, text }) => {
   return (
-    <Link to={to} className='back button'>
+    <Link to={to} className="back button">
       {text}
     </Link>
   );

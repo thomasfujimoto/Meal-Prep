@@ -9,7 +9,7 @@ const PlannerPage = () => {
     useEffect(() => {
         const fetchMealData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/get-schedule'); // Adjust the URL accordingly
+                const response = await fetch('http://localhost:5000/get-schedule');
                 if (!response.ok) {
                     throw new Error('Failed to fetch weekly meal data');
                 }
