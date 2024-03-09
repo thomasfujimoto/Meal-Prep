@@ -98,9 +98,9 @@ const MenuPage = () => {
       </div>
       <div className="navigation">
         <BackButton to="/SurveyPage" text="Back to Survey" />
-        <ForwardButton to="/PlannerPage" text="next" />
+        <ForwardButton to="/GroceryList" text="next" />
       </div>
-      <button className="submit button" onClick={handleSubmit}>Submit</button>
+      <button className="submit button" onClick={handleSubmit}>submit</button>
     </div>
   );
 };

@@ -46,8 +46,8 @@ const GroceryList = () => {
     <div>
       <div className='title'>Grocery List</div>
       {renderGroceries()}
-      <BackButton to="/MenuPage" text="<- Grocery List" />
-      <ForwardButton to="/RecipesPage" text="Weekly Planner ->" />
+      <BackButton to="/MenuPage" text="back" />
+      <ForwardButton to="/RecipesPage" text="next" />
     </div>
   );
 };

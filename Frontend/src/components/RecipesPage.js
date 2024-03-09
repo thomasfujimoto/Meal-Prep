@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import '../styles/RecipesPage.css';
-import logo from '../images/prepandplate1.png';
 
 const RecipesPage = () => {
   const [recipeSteps, setRecipe] = useState(null);
@@ -51,8 +50,8 @@ const RecipesPage = () => {
     <div>
         <div className="title">RECIPE</div>
       <div className="recipe-steps">{renderRecipes()}</div>
-      <BackButton to="/GroceryList" text="<- Grocery List" />
-      <ForwardButton to="/PlannerPage" text="Weekly Planner ->" />
+      <BackButton to="/GroceryList" text="back" />
+      <ForwardButton to="/PlannerPage" text="next" />
     </div>
   );
 };

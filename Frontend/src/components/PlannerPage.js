@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-//import '../App.css';
+import '../App.css';
 import '../styles/PlannerPage.css';
 
 const PlannerPage = () => {
@@ -31,7 +31,7 @@ const PlannerPage = () => {
 
     return (
         <div className="planner-container">
-            <div className='plantitle'>Weekly Planner</div>
+            <div className='plantitle'>PLANNER</div>
             <div className="planner">
                 {mealData && mealData.map((dayMeals, index) => ( // check to make sure array is able to be iterated over before iterating
                     <div key={index} WclassName="day">

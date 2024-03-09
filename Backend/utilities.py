@@ -72,7 +72,7 @@ def get_total_ingredients(recipe_name):
 
     for meal_dict in data:
         if meal_dict.get('title') == recipe_name:
-            return [meal_dict.get('ingredients')]
+            return [meal_dict['title'], meal_dict['ingredients']]
 
     return ["ingredients not available"]
 
@@ -90,7 +90,7 @@ def get_recipes(recipe_name):
 
     for meal_dict in data:
         if meal_dict.get('title') == recipe_name:
-            return [meal_dict.get('directions')]
+            return [[meal_dict['title'], meal_dict['directions']]]
 
     return ["directions not available"]
 
