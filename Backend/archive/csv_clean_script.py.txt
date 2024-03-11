@@ -1,0 +1,135 @@
+import pandas as pd
+
+# Read the CSV file into a DataFrame
+df = pd.read_csv('epi_r.csv')
+
+# Define keywords for each mealtime
+breakfast_keywords = ['breakfast', 'pancake', 'pancake', 'omelette', 'cereal', 'smoothie', 'muffin', 'oatmeal', 'egg', 'eggs', 'bagel', 'croissant', 'bacon']
+lunch_keywords = ['lunch', 'sandwich', 'fish', 'salad', 'pasta', 'wrap', 'soup', 'grill', 'grilled', 'bowl', 'burger', 'pizza', 'burrito']
+dinner_keywords = ['dinner', 'stir fry', 'fish', 'casserole', 'roast', 'pasta', 'grill', 'grilled', 'steak', 'roast', 'pizza', 'burrito', 'stir fry', 'skillet']
+
+# Create empty DataFrames for each category
+breakfast_df = pd.DataFrame(columns=df.columns)
+lunch_df = pd.DataFrame(columns=df.columns)
+dinner_df = pd.DataFrame(columns=df.columns)
+other_df = pd.DataFrame(columns=df.columns)
+
+# Iterate through each row in the DataFrame
+for index, row in df.iterrows():
+    # Check if any keyword for breakfast is in the recipe name
+    if any(keyword in row['title'].lower() for keyword in breakfast_keywords):
+        breakfast_df = pd.concat([breakfast_df, pd.DataFrame([row])], ignore_index=True)
+    # Check if any keyword for lunch is in the recipe name
+    if any(keyword in row['title'].lower() for keyword in lunch_keywords):
+        lunch_df = pd.concat([lunch_df, pd.DataFrame([row])], ignore_index=True)
+    # Check if any keyword for dinner is in the recipe name
+    if any(keyword in row['title'].lower() for keyword in dinner_keywords):
+        dinner_df = pd.concat([dinner_df, pd.DataFrame([row])], ignore_index=True)
+    if not any(keyword in row['title'].lower() for keyword in breakfast_keywords + lunch_keywords + dinner_keywords):
+        other_df= pd.concat([other_df, pd.DataFrame([row])], ignore_index=True)
+
+
+# Sort each DataFrame by the recipe name
+breakfast_df = breakfast_df.sort_values(by='title')
+lunch_df = lunch_df.sort_values(by='title')
+dinner_df = dinner_df.sort_values(by='title')
+other_df = other_df.sort_values(by='title')
+
+# Add a column to each DataFrame indicating the mealtime
+# Change this to 1 after confirming script works
+breakfast_df['mealtime'] = 'Breakfast'
+lunch_df['mealtime'] = 'Lunch'
+dinner_df['mealtime'] = 'Dinner'
+other_df['mealtime'] = 'Other'
+
+# Concatenate all DataFrames into one
+result_df = pd.concat([breakfast_df, lunch_df, dinner_df, other_df])
+
+# Reset the index
+result_df.reset_index(drop=True, inplace=True)
+
+# Save the result to a single CSV file
+result_df.to_csv('sorted_recipes.csv', index=False)
+
+ 21,956 changes: 21,956 additions & 0 deletions21,956  
+Prep_N_Plate_Backend/archive/sorted_recipes.csv
+Large diffs are not rendered by default.
+
+  65 changes: 53 additions & 12 deletions65  
+Prep_N_Plate_Backend/main.py
+@@ -60,22 +60,63 @@ def send_to_frontend(request):
+
+#return recipes based on user input from survey inputs above, 
+#1 = choice selected, 0 not selected
+def SurveyInput(array of ints):
+    #order of array indexes: vegetarian, vegan, treeNutFree, sugarConscious, threeIngredients, cakeWeek, tTMinute, wasteless
+    #Base cases: Nothing selected, drop nothing
+    #Something selected: Filter out everything not selected
+    #if no recipes available by options selected return no recipes found
+    pass
+
+#Use this to get df in send function, in there convert DF to CSV
+#DONE
+def SurveyInput(int_arr):
+    #order of array indexes: bfast, lunch, dinner, vegetarian, vegan, treeNutFree, sugarConscious, tTMinute, calories]
+
+    column_dict = {0: "breakfast", 1: "lunch", 2: "dinner", 3: "vegetarian", 4: "vegan", 5: "treeNutFree", 6: "sugarConscious", 7: "tTMinute", 8: "calories"}
+
+    #Base cases: Nothing selected, drop nothing
+    empty = all(x == 0 for x in int_arr)
+    if empty == True:
+        return df  
+    #Something was selected
+    else:
+        for val in int_arr:
+            if val == 0:
+                df.drop(column_dict[val], axis=1, inPlace=True)
+        return df
+
+#takes an array of recipe names chosen in the previous frontend step and then creates a grocery list 
+def GenerateUserGroceryList(array of recipe names):
+#In Progress...
+def GenerateUserGroceryList(recipes):
+    pass
+
+#takes an array of recipe names chosen in the previous frontend step and then creates a schedule with recipe directions
+def GenerateUserSchedule(array of recipe names):
+#In Progress...
+def GenerateUserSchedule(recipes):
+    pass
+
+#takes recipe string name and returns calore info, ingredients, and directions
+def RecipeInfo(recipe string name):
+    pass
+#takes one recipe string name and returns calore info, ingredients, and directions
+#In Progress...
+def RecipeInfo(recipe_str, 'archive/full_format_recipes.json'):
+
+
+import json
+
+def get_recipe_slice(recipe_title, json_file):
+    with open(json_file, 'r') as f:
+        data = json.load(f)
+        recipe_json = None
+        for recipe in data['recipes']:
+            if recipe['title'] == recipe_title:
+                recipe_json = recipe['json']
+                break
+        if recipe_json:
+            start_index = recipe_json.find("fat")
+            end_index = recipe_json.find("]", start_index) + 1
+            if start_index != -1 and end_index != -1:
+                return recipe_json[start_index:end_index]
+        return None
+
+# Example usage
+recipe_title = 'Pancakes'
+json_file = 'recipes.json'
+
+recipe_slice = get_recipe_slice(recipe_title, json_file)
+if recipe_slice:
+    print("Recipe slice found:")
+    print(recipe_slice)
+else:
+    print("Recipe slice not found.")
