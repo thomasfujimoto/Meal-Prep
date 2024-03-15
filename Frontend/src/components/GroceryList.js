@@ -6,6 +6,7 @@ import '../styles/GroceryList.css';
 const GroceryList = () => {
   const [ingredients, setIngredients] = useState([]);
 
+  // Gets ingredients from backend
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
@@ -25,6 +26,7 @@ const GroceryList = () => {
     fetchIngredients();
   }, []);
 
+  // indexes through array and prints out result on webpage
   const renderGroceries = () => {
     return (
       <ul>

@@ -33,7 +33,7 @@ const PlannerPage = () => {
         <div className="planner-container">
             <div className='title'>PLANNER</div>
             <div className="planner">
-                {mealData && mealData.map((dayMeals, index) => ( // check to make sure array is able to be iterated over before iterating
+                {mealData && mealData.map((dayMeals, index) => (
                     <div key={index} WclassName="day">
                         <h2>{getDayOfWeek(index)}</h2>
                         <div className="meals">

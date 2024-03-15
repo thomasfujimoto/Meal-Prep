@@ -10,7 +10,7 @@ const MenuPage = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch('http://localhost:5000/get-meals'); // Adjust the URL accordingly
+        const response = await fetch('http://localhost:5000/get-meals');
         if (!response.ok) {
           throw new Error('Failed to fetch meals data');
         }
@@ -23,7 +23,7 @@ const MenuPage = () => {
     };
 
     fetchMeals();
-  }, []); // Empty dependency array ensures that this effect runs only once when the component mounts
+  }, []); 
 
   const toggleMealSelection = (meal) => {
     setSelectedMeals(prevSelectedMeals =>

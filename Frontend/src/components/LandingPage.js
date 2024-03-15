@@ -3,6 +3,7 @@ import logo from '../images/prepandplate1.png';
 import { Link } from 'react-router-dom';
 import '../styles/LandingPage.css';
 
+// Displays components on landing page
 const LandingPage = () => {
   return (
     <div className="center-container">

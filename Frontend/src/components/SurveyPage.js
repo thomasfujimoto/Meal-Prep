@@ -4,6 +4,7 @@ import '../App.css';
 import '../styles/SurveyPage.css';
 
 const SurveyPage = () => {
+  // Tracks which options has and hasnt been selected
   const [foodPreferences, setFoodPreferences] = useState({
     vegetarian: 0,
     vegan: 0,
@@ -23,6 +24,7 @@ const SurveyPage = () => {
     dessert: 0,
   });
 
+  // handles changes in dietary prefrences
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setFoodPreferences((prevState) => ({
@@ -32,31 +34,35 @@ const SurveyPage = () => {
     console.log('Updated food preferences:', foodPreferences);
   };
 
+  // handles user clicking on option under calories
   const handleCaloriesChange = (event) => {
     const { checked } = event.target;
     setCaloriesPerMeal(checked ? 1 : 0);
     console.log('Updated calories per meal:', checked ? 1 : 0);
   };
 
+  // handles user click on meal prefrences (breakfast, lunch or dinner)
   const handleMealFrequencyChange = (event) => {
     const { name, checked } = event.target;
-    console.log('Previous mealFrequency:', mealFrequency); // Log previous state
+    console.log('Previous mealFrequency:', mealFrequency);
     setMealFrequency((prevState) => ({
       ...prevState,
       [name]: checked ? 1 : 0,
     }));
-    console.log('Updated mealFrequency:', mealFrequency); // Log updated state
+    console.log('Updated mealFrequency:', mealFrequency);
   };
 
+
+  // submits list of array based on whether or not a checkbox was clicked
   const submitSurvey = async (event) => {
     event.preventDefault();
-  
+
     const surveyData = {
       mealFrequency,
       caloriesPerMeal,
       foodPreferences,
     };
-  
+
     try {
       const response = await fetch('http://localhost:5000/submit-survey', {
         method: 'POST',
@@ -65,11 +71,11 @@ const SurveyPage = () => {
         },
         body: JSON.stringify(surveyData),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to submit survey');
       }
-  
+
       const responseData = await response.json();
       console.log('Survey submitted:', responseData);
       alert('Survey submitted successfully!');
@@ -80,14 +86,15 @@ const SurveyPage = () => {
   };
 
 
+  // Places 3 Questions with checkbox options
   return (
     <div>
       <div className='title'>SURVEY</div>
 
       {/* Question 1 */}
       <p className="survey-question">
-        Q1: Which <span style={{ fontStyle: 'italic', textDecoration: 'underline' }}>Meals</span> would you like? Select all that apply. 
-      </p> 
+        Q1: Which <span style={{ fontStyle: 'italic', textDecoration: 'underline' }}>Meals</span> would you like? Select all that apply.
+      </p>
       <div className="survey-options">
         <label className="survey-checkbox-label">
           <input
@@ -139,10 +146,10 @@ const SurveyPage = () => {
           Dessert
         </label>
       </div>
-      
+
       {/* Question 2 */}
       <p className="survey-question">
-      Q2: Would you like greater than 500 <span style={{ fontStyle: 'italic', textDecoration: 'underline' }}>Calories</span> per meal?
+        Q2: Would you like greater than 500 <span style={{ fontStyle: 'italic', textDecoration: 'underline' }}>Calories</span> per meal?
       </p>
       <div className="survey-options">
         <label className="survey-checkbox-label">
@@ -156,7 +163,7 @@ const SurveyPage = () => {
         </label>
       </div>
 
-      
+
       {/* Question 3 */}
       <p className="survey-question">
         Q3: What are your <span style={{ fontStyle: 'italic', textDecoration: 'underline' }}>Food Preferences</span>? Select all that apply.

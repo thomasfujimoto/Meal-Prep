@@ -12,6 +12,7 @@ df = pd.read_csv(filePath)
 df = df.dropna(axis=0, subset='calories')
 df = df.rename(columns={'22-minute meals': 'twentyMinMeals', 'dairy free': 'dairyFree', 'peanut free': 'nutFree'})
 
+
 def SurveyInput(int_arr):
     df_loc = df
     column_dict = {0: 'breakfast', 1: 'lunch', 2: 'dinner', 3: 'twentyMinMeals', 4: 'dessert', 5: 'calories',

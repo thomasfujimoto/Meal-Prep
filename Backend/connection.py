@@ -7,7 +7,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Function to extract integers from nested dictionary
+# Function to extract integers from nested dictionary from survey data
 def extract_integers(data, integers=[]):
     for value in data.values():
         if isinstance(value, dict):
@@ -15,6 +15,7 @@ def extract_integers(data, integers=[]):
         elif isinstance(value, int):
             integers.append(value)
     return integers
+
 
 def extract_meals(data, recipes=[]):
     pair = []
@@ -26,6 +27,7 @@ def extract_meals(data, recipes=[]):
                 pair = []
     return recipes
 
+# parses out meal titles based on submitted survey results
 @app.route('/submit-survey', methods=['POST'])
 def handle_survey():
     if not request.is_json:
@@ -53,13 +55,14 @@ def handle_survey():
         # Handle errors
         return jsonify({"error": str(e)}), 500
 
-#Note: This API endpoint is from the same recipes function on the frontend, which should reflect the recipes chosen by the user.
+# Pulls out ingredients for grocery page
 @app.route('/submit-grocery', methods=['POST'])
 def handle_grocery_list():
     survey_data = request.json
 
     # Convert data to recipes list
     meals = extract_meals(survey_data, [])
+    
     # Generate the user's weekly schedule from the list of 21 recipes
     groceries = GenerateUserGroceryList(meals)
 
@@ -70,6 +73,7 @@ def handle_grocery_list():
     #return jsonify(groceries)
     return jsonify(message="Success: Meals submitted successfully"), 200
 
+# Pulls out the recipes for each meal
 @app.route('/submit-recipes', methods=['POST'])
 def handle_recipes_list():
     survey_data = request.json
@@ -82,15 +86,13 @@ def handle_recipes_list():
     with open('recipes_page.json', 'w') as f:
         json.dump(recipes, f)
 
-    # return jsonified list
-    #return jsonify(recipes)
+    # return Sucecss message
     return jsonify(message="Success: Meals submitted successfully"), 200
 
+# POST request to submit meals selected
 @app.route('/submit-meals', methods=['POST'])
 def handle_scheduling_recipes():
     survey_data = request.json
-
-    # print(survey_data)
 
     #Convert data to recipes list
     meals = extract_meals(survey_data, [])
@@ -101,13 +103,14 @@ def handle_scheduling_recipes():
     with open('schedule_page.json', 'w') as f:
          json.dump(schedule, f)
 
+    # call grocery and recipes function to reduce frontend / backend requests
     handle_grocery_list()
     handle_recipes_list()
 
-    #return jsonified list
-    # return jsonify(schedule),200
+    # return success message
     return jsonify(message="Success: Meals submitted successfully"),200
 
+# GET request reciever to get meal for meal page
 @app.route('/get-meals', methods=['GET'])
 def get_meals():
     with open('meal_page.json', 'r') as f:
@@ -115,6 +118,7 @@ def get_meals():
 
     return jsonify({'meals': meals_data})
 
+# GET request reciever to get meal titles for schedule page
 @app.route('/get-schedule', methods=['GET'])
 def get_schedule():
     with open('schedule_page.json', 'r') as f:
@@ -122,6 +126,7 @@ def get_schedule():
 
     return jsonify({'schedule': schedule_data})
 
+#GET request receiver to get ingredients for grocery page
 @app.route('/get-grocery', methods=['GET'])
 def get_grocery():
     with open('grocery_page.json', 'r') as f:
@@ -129,24 +134,13 @@ def get_grocery():
 
     return jsonify({'grocery': grocery_data})
 
+#GET request to get recipes for recipe page
 @app.route('/get-recipes', methods=['GET'])
 def get_recipes():
     with open('recipes_page.json', 'r') as f:
         recipes_data = json.load(f)
 
     return jsonify({'recipes': recipes_data})
-
-# Worry about this later
-# @app.route('/submit-recipe', methods=['POST'])
-# def receive_recipe():
-#     survey_data = request.json
-
-#     recipe = extract_recipes(survey_data)
-
-#     print(recipe)
-
-#     # Return a response
-#     return jsonify({'message': 'Recipes received successfully'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
