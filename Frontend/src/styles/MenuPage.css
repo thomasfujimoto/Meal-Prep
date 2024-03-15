@@ -20,22 +20,23 @@
     border-radius: 10px; /* Add border radius to curve the boxes */
     background-color: white; /* Change background color to white */
 }
-  
-  .meal-item:hover,
-  .meal-item.selected {
-      background-color:  #abd1b5; /* Change background color when hovered over or selected */
-  }
-  
-  .meal-column:last-child .meal-item {
-      margin-right: 0; /* Remove margin from the last food item in each column */
-  }
+
+/* Change background color when hovered over or selected */
+.meal-item:hover,
+.meal-item.selected {
+    background-color:  #abd1b5; 
+}
+
+.meal-column:last-child .meal-item {
+    margin-right: 0; 
+}
   
   
 /* Meal Column Title Styling */
 .meal-column-title {
     /* Your styles for the "Breakfast" title here */
-    color: black; /* For example, change the color to blue */
-    font-size: 24px; /* For example, change the font size */
+    color: black;
+    font-size: 24px; 
     text-align: center;
 }
 
