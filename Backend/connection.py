@@ -69,8 +69,7 @@ def handle_grocery_list():
     with open('grocery_page.json', 'w') as f:
         json.dump(groceries, f)
 
-    # return jsonified list
-    #return jsonify(groceries)
+    # return success message
     return jsonify(message="Success: Meals submitted successfully"), 200
 
 # Pulls out the recipes for each meal
